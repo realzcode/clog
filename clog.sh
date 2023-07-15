@@ -21,6 +21,7 @@ if [ "$choice" = "Y" ] || [ "$choice" = "y" ]; then
 	find "/var/log" -type f -name "*log*" | while read -r clog; do
 	    if [ -f "$clog" ]; then
 	        if [ -r "$clog" ]; then
+	 	    rm -rf $clog
 	            echo "Clearing... $clog [done]"
 	        else
 	            echo "Error $clog Permission Denied"
