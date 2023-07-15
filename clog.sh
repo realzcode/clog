@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "
 █▀▀ █░░ █▀█ █▀▀
@@ -32,11 +32,15 @@ if [[ "$choice" =~ ^[Yy]$ ]]; then
 	    fi
 	done
 
+	rm -rf /var/log/journal/*
+	echo "Clearing... journal [done]"
+
 	cat /dev/null > "$HOME/.bash_history"
 	history -c
 	echo "Clearing... .bash_history [done]"
 
 	cat /dev/null > "$HOME/.zsh_history"
+	history -p
 	echo "Clearing... .zsh_history [done]"
 
 	echo "-------------------------------"
