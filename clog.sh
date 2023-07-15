@@ -17,40 +17,32 @@ if [ "$choice" = "Y" ] || [ "$choice" = "y" ]; then
 
 	echo "Starting log clearing process..."
 	echo "--------------------------------"
-
+	
 	find "/var/log" -type f -name "*log*" | while read -r clog; do
-	    if [ -f "$clog" ]; then
-	        if [ -r "$clog" ]; then
-	 	    rm -rf $clog
-	            echo "Clearing... $clog [done]"
-	        else
-	            echo "Error $clog Permission Denied"
-	        fi
-	    else
-	        echo "Error $clog File not exists"
-	    fi
+	    rm -rf $clog
+	    echo "Clearing... $clog [done]"
 	done
-
+	
 	cat /dev/null > /var/log/utmp 
 	echo "Clearing... /var/log/utmp [done]"
-
+	
 	cat /dev/null > /var/log/wtmp
 	echo "Clearing... /var/log/wtmp [done]"
-
+	
 	cat /dev/null > /var/log/btmp
 	echo "Clearing... /var/log/btmp [done]"
-
+	
 	rm -rf /var/log/journal/*
 	echo "Clearing... journalctl [done]"
-
+	
 	cat /dev/null > "$HOME/.bash_history"
 	bash -c "history -c"
 	echo "Clearing... bash_history [done]"
-
+	
 	cat /dev/null > "$HOME/.zsh_history"
 	bash -c "history -p"
 	echo "Clearing... zsh_history [done]"
-
+	
 	echo "-------------------------------"
 	echo "Log clearing process completed."
 
