@@ -15,12 +15,12 @@ log_directory="/var/log"
 
 read -rp "Rock n Roll ? (Y/N): " choice
 
-if [[ "$choice" =~ ^[Yy]$ ]]; then
+if [ "$choice" = "Y" ] || [ "$choice" = "y" ]; then
 
 	echo "Starting log clearing process..."
 	echo "--------------------------------"
 
-	find "$log_directory" -type f -name "*.log" | while read -r log_file; do
+	find "$log_directory" -type f -name "*log*" | while read -r log_file; do
 	    if [ -f "$log_file" ]; then
 	        if [ -r "$log_file" ]; then
 	            echo "Clearing... $log_file [done]"
@@ -32,16 +32,25 @@ if [[ "$choice" =~ ^[Yy]$ ]]; then
 	    fi
 	done
 
+	cat /dev/null > /var/log/utmp 
+	echo "Clearing... /var/log/utmp [done]"
+
+	cat /dev/null > /var/log/wtmp
+	echo "Clearing... /var/log/wtmp [done]"
+
+	cat /dev/null > /var/log/btmp
+	echo "Clearing... /var/log/btmp [done]"
+
 	rm -rf /var/log/journal/*
-	echo "Clearing... journal [done]"
+	echo "Clearing... journalctl [done]"
 
 	cat /dev/null > "$HOME/.bash_history"
-	history -c
-	echo "Clearing... .bash_history [done]"
+	bash -c "history -c"
+	echo "Clearing... bash_history [done]"
 
 	cat /dev/null > "$HOME/.zsh_history"
-	history -p
-	echo "Clearing... .zsh_history [done]"
+	bash -c "history -p"
+	echo "Clearing... zsh_history [done]"
 
 	echo "-------------------------------"
 	echo "Log clearing process completed."
