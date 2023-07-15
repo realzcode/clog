@@ -7,11 +7,9 @@ by RealzCode
 "
 
 if [ "$(id -u)" -ne 0 ]; then
-    printf "sudo ./clog.sh"
+    echo "sudo ./clog.sh"
     exit 1
 fi
-
-log_directory="/var/log"
 
 read -rp "Rock n Roll ? (Y/N): " choice
 
@@ -20,15 +18,15 @@ if [ "$choice" = "Y" ] || [ "$choice" = "y" ]; then
 	echo "Starting log clearing process..."
 	echo "--------------------------------"
 
-	find "$log_directory" -type f -name "*log*" | while read -r log_file; do
-	    if [ -f "$log_file" ]; then
-	        if [ -r "$log_file" ]; then
-	            echo "Clearing... $log_file [done]"
+	find "/var/log" -type f -name "*log*" | while read -r clog; do
+	    if [ -f "$clog" ]; then
+	        if [ -r "$clog" ]; then
+	            echo "Clearing... $clog [done]"
 	        else
-	            echo "Error $log_file Permission Denied"
+	            echo "Error $clog Permission Denied"
 	        fi
 	    else
-	        echo "Error $log_file File not exists"
+	        echo "Error $clog File not exists"
 	    fi
 	done
 
